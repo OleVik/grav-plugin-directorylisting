@@ -1,5 +1,5 @@
 name: Directory Listing
-version: 1.0.0
+version: 1.0.1
 description: "Returns a hierarchy of files below the page through Twig."
 icon: asterisk
 author:

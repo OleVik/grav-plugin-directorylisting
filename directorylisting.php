@@ -41,7 +41,8 @@ class DirectoryListingPlugin extends Plugin {
 				if (!empty($value)) {
 					echo '<li class="item directory">';
 					if ($builtin_css) {
-						echo '<input type="checkbox" id="' . $key . '" /><label for="' . $key . '">' . $key . '</label>';
+						echo '<input type="checkbox" id="' . $key . '" />';
+						echo '<label for="' . $key . '">' . $key . '</label>';
 					} else {
 						echo $key;
 					}

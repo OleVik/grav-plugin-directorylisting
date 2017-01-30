@@ -1,0 +1,66 @@
+name: Directory Listing
+version: 1.0.0
+description: "Returns a hierarchy of files below the page through Twig."
+icon: asterisk
+author:
+  name: Ole Vik
+  email: git@olevik.me
+  url: http://olevik.me
+homepage: https://github.com/olevik/grav-plugin-directorylisting
+keywords: avatar, avatars, identicon, identicons
+bugs: https://github.com/olevik/grav-plugin-directorylisting/issues
+license: MIT
+
+form:
+  validation: loose
+  fields:
+    enabled:
+      type: toggle
+      label: Plugin Status
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+    exclude_main:
+      type: toggle
+      label: Exclude page file
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+    links:
+      type: toggle
+      label: Link to files
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+    builtin_css:
+      type: toggle
+      label: Use Plugin's CSS
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+    builtin_js:
+      type: toggle
+      label: Use Plugin's JS
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool

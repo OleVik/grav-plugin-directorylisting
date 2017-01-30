@@ -1,0 +1,89 @@
+/* Based on: https://github.com/lorenzos/Minixed */
+ul.directorylisting li {
+	display: block;
+	list-style-type: none;
+	overflow: hidden;
+	padding: 10px 10px 10px 0;
+}
+
+ul.directorylisting li:hover {
+	background-color: #f3f3f3;
+}
+
+ul.directorylisting li .date {
+	text-align: center;
+	width: 120px;
+}
+
+ul.directorylisting li .size {
+	text-align: right;
+	width: 90px;
+}
+
+ul.directorylisting li .date, ul li .size {
+	float: right;
+	display: block;
+	color: #666666;
+}
+
+ul.directorylisting li {
+	border-bottom: 1px solid #cccccc;
+}
+
+ul.directorylisting li:hover {
+	background-color: transparent;
+}
+
+ul.directorylisting li * {
+	color: #000000;
+}
+
+ul.directorylisting li a:hover {
+	color: #666666;
+}
+
+ul.directorylisting li .asc span, ul#header li .desc span {
+	padding-right: 15px;
+	background-position: right center;
+	background-repeat: no-repeat;
+}
+
+ul.directorylisting li.item .name {
+	color: #003399;
+}
+
+ul.directorylisting li.item .name:hover {
+	color: #0066cc;
+}
+
+ul.directorylisting li.item a:hover {
+	text-decoration: underline;
+}
+
+ul.directorylisting li.item.directory, ul li.item.file {
+	// padding-left: 20px;
+	background-position: left center;
+	background-repeat: no-repeat;
+}
+
+ul.directorylisting li.item.file {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPklEQVQYlcXQsQ0AIAhE0b//GgzDWGdjDCJoKck13CsIALi7gJxyVmFmyrsXLHEHD7zBmBbezvoJm4cL0OwYouM4O3J+UDYAAAAASUVORK5CYII=);
+	padding-left: 1em;
+}
+
+input[type=checkbox] {
+	display:none;
+}
+input[type=checkbox] + label {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAASklEQVQYlYWPwQ3AMAgDb3Tv5AHdR5OqTaBB8gM4bAGApACPRr/XuujA+vqVcAI3swDYjqRSH7B9oHI8grbTgWN+g3+xq0k6TegCNtdPnJDsj8sAAAAASUVORK5CYII=);
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 1em;
+	font-weight: bold;
+}
+input[type=checkbox]:checked + label {
+	font-style: italic;
+}
+ul.directorylisting ul.directorylisting {
+	display: none;
+}

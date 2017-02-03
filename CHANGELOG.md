@@ -1,3 +1,9 @@
+# v1.0.4
+## 03-02-2017
+
+1. [](#new)
+    * Added option to exclude modular pages
+
 # v1.0.3
 ## 31-01-2017
 

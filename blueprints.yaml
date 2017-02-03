@@ -1,5 +1,5 @@
 name: Directory Listing
-version: 1.0.3
+version: 1.0.4
 description: "Returns a hierarchy of files below the page through Twig."
 icon: asterisk
 author:
@@ -25,6 +25,16 @@ form:
       validate:
         type: bool
     exclude_main:
+      type: toggle
+      label: Exclude page file
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+    exclude_modular:
       type: toggle
       label: Exclude page file
       highlight: 1

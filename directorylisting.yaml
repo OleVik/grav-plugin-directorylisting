@@ -1,5 +1,6 @@
 enabled: true
 exclude_main: true
+exclude_modular: true
 links: true
 builtin_css: true
 builtin_js: true

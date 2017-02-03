@@ -21,6 +21,7 @@ The plugin is enabled by default, and can be disabled by copying `user/plugins/d
 |----------------|---------|-------------------|--------------------------------------------------------------------------|
 | `enabled` | `true` | `true` or `false` | Enables or disables plugin entirely. |
 | `exclude_main` | `true` | `true` or `false` | Excludes the page-file, ie. the Markdown-.file, from the tree-structure. |
+| `exclude_modular` | `true` | `true` or `false` | Excludes modular pages, ie. the modular folders from the tree-structure. |
 | `links` | `true` | `true` or `false` | Enables or disables links on file names. |
 | `builtin_css` | `true` | `true` or `false` | Enables or disables the plugin's built-in CSS. |
 | `builtin_js` | `true` | `true` or `false` | Enables or disables the plugin's built-in JavaScript. |

@@ -19,7 +19,7 @@ class DirectoryListingPlugin extends Plugin {
 		$cdir = scandir($dir);
 		$exclude = array(".", "..");
 		if ($exclude_extra) {
-			$exclude[] = $exclude_extra;
+			$exclude = array_merge($exclude, $exclude_extra);
 		}
 		foreach ($cdir as $key => $value) {
 			if (!in_array($value, $exclude)) {
@@ -78,12 +78,20 @@ class DirectoryListingPlugin extends Plugin {
 					$this->grav['assets']->addJs('jquery');
 					$this->grav['assets']->addJs('plugin://directorylisting/js/directorylisting.js');
 				}
+				$exclude_files = array();
 				if ($pluginobject['exclude_main']) {
-					$current_file = $pageobject->name();
-					$items = $this->dirToArray($path, $current_file);
-				} else {
-					$items = $this->dirToArray($path);
+					$exclude_files[] = $pageobject->name();
 				}
+				if ($pluginobject['exclude_modular']) {
+					if (isset($pageobject->header()->content['items'])) {
+						if ($pageobject->header()->content['items'] == '@self.modular') {
+							foreach ($pageobject->header()->content['order']['custom'] as $module) {
+								$exclude_files[] = $module;
+							}
+						}
+					}
+				}
+				$items = $this->dirToArray($path, $exclude_files);
 				
 				ob_start();
 				echo '<div class="directorylist">';

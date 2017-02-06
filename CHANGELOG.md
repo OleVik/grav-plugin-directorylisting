@@ -1,3 +1,9 @@
+# v1.0.5
+## 06-02-2017
+
+1. [](#bugfix)
+    * Fix text in blueprint-field for excluding modular pages.
+
 # v1.0.4
 ## 03-02-2017
 

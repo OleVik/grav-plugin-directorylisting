@@ -36,7 +36,7 @@ form:
         type: bool
     exclude_modular:
       type: toggle
-      label: Exclude page file
+      label: Exclude modular page file 
       highlight: 1
       default: 1
       options:

@@ -4,7 +4,6 @@ namespace Grav\Plugin;
 use Grav\Common\Grav;
 use Grav\Common\Plugin;
 use Grav\Common\Page\Page;
-use Grav\Common\Page\Medium\Medium;
 use RocketTheme\Toolbox\Event\Event;
 
 class DirectoryListingPlugin extends Plugin {

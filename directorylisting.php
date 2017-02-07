@@ -4,6 +4,7 @@ namespace Grav\Plugin;
 use Grav\Common\Grav;
 use Grav\Common\Plugin;
 use Grav\Common\Page\Page;
+use Grav\Common\Page\Medium\Medium;
 use RocketTheme\Toolbox\Event\Event;
 
 class DirectoryListingPlugin extends Plugin {
@@ -51,10 +52,12 @@ class DirectoryListingPlugin extends Plugin {
 				$this->recursiveArrayToList($value, $links, $builtin_css);
 			} else {
 				$parts = pathinfo($value);
+                $fileLocation = end(explode('pub/', $value));
+
 				if ($links) {
-					echo '<li class="item file"><a href="' . $value . '">' . $parts['filename'] . '.' . $parts['extension'] . '</a></li>';
+					echo '<li class="item file"><a href="/'. $fileLocation . '">' . $parts['basename'] . '</a></li>';
 				} else {
-					echo '<li class="item file">' . $parts['filename'] . '.' . $parts['extension'] . '</li>';
+					echo '<li class="item file">' . $parts['basename'] . '</li>';
 				}
 			}
 		}

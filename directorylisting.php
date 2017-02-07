@@ -52,7 +52,7 @@ class DirectoryListingPlugin extends Plugin {
 				$this->recursiveArrayToList($value, $links, $builtin_css);
 			} else {
 				$parts = pathinfo($value);
-                $fileLocation = end(explode('pub/', $value));
+				$fileLocation = end(explode('pub/', $value));
 
 				if ($links) {
 					echo '<li class="item file"><a href="/'. $fileLocation . '">' . $parts['basename'] . '</a></li>';

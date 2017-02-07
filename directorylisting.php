@@ -34,9 +34,11 @@ class DirectoryListingPlugin extends Plugin {
 	}
 	
 	/* Source: http://stackoverflow.com/a/36334789/603387 */
-	private function recursiveArrayToList($array, $links = false, $builtin_css = false) {
+	private function recursiveArrayToList($array, $root, $links = false, $builtin_css = false) {
 		echo '<ul class="directorylisting">';
 		foreach ($array as $key => $value) {
+			$url = $this->grav['page']->rawRoute();
+			$location = str_replace($root, '', $value);
 			if (is_array($value)) {
 				if (!empty($value)) {
 					echo '<li class="item directory">';
@@ -48,13 +50,13 @@ class DirectoryListingPlugin extends Plugin {
 					}
 					echo '</li>';
 				}
-				$this->recursiveArrayToList($value, $links, $builtin_css);
+				$this->recursiveArrayToList($value, $root, $links, $builtin_css);
 			} else {
 				$parts = pathinfo($value);
 				if ($links) {
-					echo '<li class="item file"><a href="' . $value . '">' . $parts['filename'] . '.' . $parts['extension'] . '</a></li>';
+					echo '<li class="item file"><a href="' . $url . $location . '">' . $parts['basename'] . '</a></li>';
 				} else {
-					echo '<li class="item file">' . $parts['filename'] . '.' . $parts['extension'] . '</li>';
+					echo '<li class="item file">' . $parts['basename'] . '</li>';
 				}
 			}
 		}
@@ -95,7 +97,7 @@ class DirectoryListingPlugin extends Plugin {
 				
 				ob_start();
 				echo '<div class="directorylist">';
-				$this->recursiveArrayToList($items, $links, $builtin_css);
+				$this->recursiveArrayToList($items, $path, $links, $builtin_css);
 				echo '</div>';
 				$output = ob_get_contents();
 				ob_end_clean();

@@ -1,3 +1,9 @@
+# v1.0.6
+## 07-02-2017
+
+1. [](#bugfix)
+    * Change paths from system to server.
+
 # v1.0.5
 ## 06-02-2017
 

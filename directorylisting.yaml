@@ -1,6 +1,8 @@
 enabled: true
 exclude_main: true
 exclude_modular: true
+exclude_files:
+  - .DS_Store
 links: true
 builtin_css: true
 builtin_js: true

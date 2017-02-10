@@ -44,6 +44,14 @@ form:
         0: PLUGIN_ADMIN.DISABLED
       validate:
         type: bool
+    exclude_files:
+      type: selectize
+      size: large
+      label: Exclude Specific Files
+      help: For example, like .DS_Store
+      classes: fancy
+      validate:
+        type: commalist
     links:
       type: toggle
       label: Link to files

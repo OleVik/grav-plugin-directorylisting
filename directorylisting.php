@@ -24,7 +24,7 @@ class DirectoryListingPlugin extends Plugin {
 		foreach ($cdir as $key => $value) {
 			if (!in_array($value, $exclude)) {
 				if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
-					$result[$value] = $this->dirToArray($dir . DIRECTORY_SEPARATOR . $value);
+					$result[$value] = $this->dirToArray($dir . DIRECTORY_SEPARATOR . $value, $exclude);
 				} else {
 					$result[] = $dir . DIRECTORY_SEPARATOR . $value;
 				}
@@ -91,6 +91,11 @@ class DirectoryListingPlugin extends Plugin {
 								$exclude_files[] = $module;
 							}
 						}
+					}
+				}
+				if ($pluginobject['exclude_files']) {
+					foreach ($pluginobject['exclude_files'] as $fileToExclude) {
+						$exclude_files[] = $fileToExclude;
 					}
 				}
 				$items = $this->dirToArray($path, $exclude_files);

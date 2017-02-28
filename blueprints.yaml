@@ -1,7 +1,7 @@
 name: Directory Listing
-version: 1.0.6
+version: 1.0.7
 description: "Returns a hierarchy of files below the page through Twig."
-icon: asterisk
+icon: folder-open
 author:
   name: Ole Vik
   email: git@olevik.me
@@ -27,6 +27,7 @@ form:
     exclude_main:
       type: toggle
       label: Exclude page file
+      description: Excludes the file which the tree-structure is called from.
       highlight: 1
       default: 1
       options:
@@ -44,9 +45,17 @@ form:
         0: PLUGIN_ADMIN.DISABLED
       validate:
         type: bool
+    exclude_files:
+      type: selectize
+      label: Exclude additional
+      description: Additional files/folders to exclude from tree-structure.
+      classes: fancy
+      validate:
+        type: commalist
     links:
       type: toggle
       label: Link to files
+      description: Wraps an anchor linking to the file around the filename.
       highlight: 1
       default: 1
       options:

@@ -1,3 +1,17 @@
+# v1.1.0
+## 01-03-2017
+
+1. [](#improved)
+    * Inline JavaScript to accomodate level-option
+    * Readme updates
+2. [](#new)
+    * Add ability to include other folders
+    * Add option to select initial level of folders to expand on load
+3. [](#bugfix)
+    * Wrong field-name in blueprint
+    * Redundancy in dirToArray-method
+    * Keywords in blueprint
+
 # v1.0.7
 ## 28-02-2017
 
@@ -11,6 +25,7 @@
     * Document class and methods
 3. [](#bugfix)
     * Recursion call
+    * Improve default excludes to target all dotfiles
 
 # v1.0.6
 ## 07-02-2017

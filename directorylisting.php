@@ -37,16 +37,12 @@ class DirectoryListingPlugin extends Plugin
      * @return array Directory-structure
      * @see http://php.net/manual/en/function.scandir.php#110570
      */
-    protected function dirToArray($dir, $excludes = array())
+    protected function dirToArray($dir, $exclude = array())
     {
         $result = array();
         $contents = array_filter(scandir($dir), function ($item) {
             return $item[0] !== '.';
         });
-        $exclude = array();
-        if ($excludes) {
-            $exclude = array_merge($exclude, $excludes);
-        }
         foreach ($contents as $value) {
             if (!in_array($value, $exclude)) {
                 if (is_dir($dir . '/' . $value)) {
@@ -68,7 +64,7 @@ class DirectoryListingPlugin extends Plugin
      * @return void
      * @see http://stackoverflow.com/a/36334789/603387
      */
-    protected function recursiveArrayToList($array, $root, $links = false, $css = false)
+    protected function recursiveArrayToList($array, $root, $uid = '', $links = false, $css = false)
     {
         echo '<ul class="directorylisting">';
         foreach ($array as $key => $value) {
@@ -78,14 +74,14 @@ class DirectoryListingPlugin extends Plugin
                 if (!empty($value)) {
                     echo '<li class="item directory">';
                     if ($css) {
-                        echo '<input type="checkbox" id="' . $key . '" />';
-                        echo '<label for="' . $key . '">' . $key . '</label>';
+                        echo '<input type="checkbox" id="' . $uid . '_' . $key . '" />';
+                        echo '<label for="' . $uid . '_' . $key . '">' . $key . '</label>';
                     } else {
                         echo $key;
                     }
                     echo '</li>';
                 }
-                $this->recursiveArrayToList($value, $root, $links, $css);
+                $this->recursiveArrayToList($value, $root, $uid . '_' . $key, $links, $css);
             } else {
                 $parts = pathinfo($value);
                 if ($links) {
@@ -111,18 +107,41 @@ class DirectoryListingPlugin extends Plugin
 
         $config = (array) $this->config->get('plugins');
         $config = $config['directorylisting'];
+        $config['locator'] = $this->grav['locator'];
+        $config['pages_path'] = $config['locator']->findResource('page://', true);
         $page = $this->grav['page'];
         $css = $config['builtin_css'];
         $javascript = $config['builtin_js'];
         $links = $config['links'];
         if (isset($config) && $config['enabled']) {
             $path = $page->path();
+            $title = $page->header()->title;
             if ($css) {
                 $this->grav['assets']->addCss('plugin://directorylisting/css/directorylisting.css');
             }
             if ($javascript) {
                 $this->grav['assets']->addJs('jquery');
-                $this->grav['assets']->addJs('plugin://directorylisting/js/directorylisting.js');
+                $javascript_inline = "$(document).ready(function() {\n";
+                if ($config['level']) {
+                    for ($i = 1; $i <= $config['level']; $i++) {
+                        $level = 'ul.directorylisting ';
+                        $level = str_repeat($level, $i);
+                        $javascript_inline .= "$('div.directorylist > $level> li.item.directory > input[type=\"checkbox\"]').prop('checked', true);\n";
+                        $javascript_inline .= "$('div.directorylist > $level> ul.directorylisting').show();\n";
+                    }
+                } else {
+                    $javascript_inline .= "$('div.directorylist > ul.directorylisting > li.item.directory > input[type=\"checkbox\"]').prop('checked', true);\n";
+                    $javascript_inline .= "$('div.directorylist > ul.directorylisting > ul.directorylisting').show();\n";
+                }
+                $javascript_inline .= "$('div.directorylist li.item.directory input[type=\"checkbox\"]').change(function() {\n";
+                $javascript_inline .= "if ($(this).is(\":checked\")) {\n";
+                $javascript_inline .= "$(this).parent().next(\"ul.directorylisting\").show();\n";
+                $javascript_inline .= "} else {\n";
+                $javascript_inline .= "$(this).parent().next(\"ul.directorylisting\").hide();\n";
+                $javascript_inline .= "}\n";
+                $javascript_inline .= "});\n";
+                $javascript_inline .= "})\n";
+                $this->grav['assets']->addInlineJs($javascript_inline);
             }
             $excludeFiles = array();
             if ($config['exclude_main']) {
@@ -142,14 +161,42 @@ class DirectoryListingPlugin extends Plugin
                     $excludeFiles[] = $fileToExclude;
                 }
             }
-            $items = $this->dirToArray($path, $excludeFiles);
+            $output = '';
+            $items = array($title => $this->dirToArray($path, $excludeFiles));
 
-            ob_start();
-            echo '<div class="directorylist">';
-            $this->recursiveArrayToList($items, $path, $links, $css);
-            echo '</div>';
-            $output = ob_get_contents();
-            ob_end_clean();
+            if ($config['include_additional']) {
+                $instances = $this->grav['pages']->instances();
+                foreach ($config['include_additional'] as $fileToInclude) {
+                    $includePath = $config['pages_path'] . '/' . $fileToInclude;
+                    if (in_array($includePath, array_keys($instances))) {
+                        $title = $instances[$includePath]->header()->title;
+                        $include = $this->dirToArray($includePath);
+                        $items[$title] = $include;
+                    }
+                }
+            }
+            foreach ($items as $key => $item) {
+                ob_start();
+                echo '<div class="directorylist">';
+                if (count($items) > 1) {
+                    echo '<ul class="directorylisting">';
+                    echo '<li class="item directory">';
+                    if ($css) {
+                        echo '<input type="checkbox" id="' . strtolower($key) . '" />';
+                        echo '<label for="' . strtolower($key) . '">' . $key . '</label>';
+                    } else {
+                        echo $key;
+                    }
+                    echo '</li>';
+                }
+                $this->recursiveArrayToList($item, $path, strtolower($key), $links, $css);
+                if (count($items) > 1) {
+                    echo '</ul>';
+                }
+                echo '</div>';
+                $output .= ob_get_contents();
+                ob_end_clean();
+            }
 
             $this->grav['twig']->twig_vars['directorylisting'] = $output;
         }

@@ -1,5 +1,5 @@
 name: Directory Listing
-version: 1.0.7
+version: 1.1.0
 description: "Returns a hierarchy of files below the page through Twig."
 icon: folder-open
 author:
@@ -7,7 +7,7 @@ author:
   email: git@olevik.me
   url: http://olevik.me
 homepage: https://github.com/olevik/grav-plugin-directorylisting
-keywords: avatar, avatars, identicon, identicons
+keywords: directory, folders, files, tree
 bugs: https://github.com/olevik/grav-plugin-directorylisting/issues
 license: MIT
 
@@ -24,6 +24,15 @@ form:
         0: PLUGIN_ADMIN.DISABLED
       validate:
         type: bool
+    level:
+      type: range
+      label: Level
+      description: Initial level of folders to expand on load.
+      id: directorylisting_level
+      default: 1
+      validate:
+        min: 0
+        max: 10
     exclude_main:
       type: toggle
       label: Exclude page file
@@ -45,10 +54,18 @@ form:
         0: PLUGIN_ADMIN.DISABLED
       validate:
         type: bool
-    exclude_files:
+    exclude_additional:
       type: selectize
       label: Exclude additional
       description: Additional files/folders to exclude from tree-structure.
+      classes: fancy
+      validate:
+        type: commalist
+    include_additional:
+      type: selectize
+      label: Include additional
+      help: Matches folder-name in /user/pages/, not page-title
+      description: Additional folders to include in the tree-structure.
       classes: fancy
       validate:
         type: commalist

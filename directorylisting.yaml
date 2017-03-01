@@ -1,7 +1,10 @@
 enabled: true
+level: 1
 exclude_main: true
 exclude_modular: true
 exclude_additional:
+ - 
+include_additional:
  - 
 links: true
 builtin_css: true

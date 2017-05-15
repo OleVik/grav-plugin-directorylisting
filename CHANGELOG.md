@@ -1,3 +1,12 @@
+# v1.1.1
+## 15-05-2017
+
+1. [](#improved)
+    * Facilitate page-level configuration
+    * Readme updates
+2. [](#bugfix)
+    * Excluding modules now targets children, not modular FrontMatter
+
 # v1.1.0
 ## 01-03-2017
 

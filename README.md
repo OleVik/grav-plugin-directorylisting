@@ -35,6 +35,29 @@ Disabling `builtin_css` and `builtin_js` returns a simple hierarchical unordered
 
 Additional files or folders can be **excluded** by passing a list to `exclude_additional`. Additional **folders** can be **included** by passing a list to `include_additional`, which should match folder-names in /user/pages/, not page-titles.
 
+As of v1.1.1 you can configure the plugin-settings in individual page FrontMatter, for example:
+
+```
+---
+title: 'Modular Page'
+onpage_menu: true
+body_classes: 'modular header-image fullwidth'
+content:
+  items: '@self.modular'
+directorylisting:
+  level: 9
+  exclude_main: false
+  exclude_modular: true
+  exclude_additional:
+   - "item.md"
+  include_additional:
+   - "01.home"
+  links: true
+  builtin_css: true
+  builtin_js: true
+---
+```
+
 **Note:** As with Grav itself, you should avoid a large amount of subfolders and files underneath /pages. As the plugin recursively iterates below any page whose template uses the Twig-tag, a large amount of files (numerically, not in size), could slow performance. If the site is cached, this is not noticeable even with thousands of files.
 
 ### Example

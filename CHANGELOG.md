@@ -1,3 +1,11 @@
+# v2.0.0
+## 16-05-2017
+
+1. [](#improved)
+    * Rewrote and restructured plugin
+2. [](#new)
+    * Twig-function for building the Directory Listing in templates
+
 # v1.1.1
 ## 15-05-2017
 

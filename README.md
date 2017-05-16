@@ -58,6 +58,21 @@ directorylisting:
 ---
 ```
 
+As of v2.0.0 you can call the plugin from the `directorylisting` Twig-function, for example:
+
+```
+{% set settings = {
+    'exclude_main': false, 
+    'exclude_modular': true, 
+    'include_additional': [
+        'products'
+    ]
+} %}
+{{ directorylisting(settings) }}
+```
+
+The multi-dimensional array of values passed to the function mirrors the plugin's settings exactly.
+
 **Note:** As with Grav itself, you should avoid a large amount of subfolders and files underneath /pages. As the plugin recursively iterates below any page whose template uses the Twig-tag, a large amount of files (numerically, not in size), could slow performance. If the site is cached, this is not noticeable even with thousands of files.
 
 ### Example

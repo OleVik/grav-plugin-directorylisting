@@ -74,7 +74,7 @@ You can also call the plugin from the `directorylisting` Twig-function, for exam
     'exclude_main': false, 
     'exclude_modular': true, 
     'include_additional': [
-        'products'
+        '/blog'
     ]
 } %}
 {{ directorylisting(settings) }}

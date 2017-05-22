@@ -1,10 +1,12 @@
-# v2.0.0
+# v2.0.0-rc.1
 ## 16-05-2017
 
 1. [](#improved)
     * Rewrote and restructured plugin
+    * Use pages and media rather than scandir()
 2. [](#new)
     * Twig-function for building the Directory Listing in templates
+    * Use metisMenu jQuery-plugin for default functionality
 
 # v1.1.1
 ## 15-05-2017

@@ -1,11 +1,14 @@
 enabled: true
 level: 1
-exclude_main: true
-exclude_modular: true
-exclude_additional:
- - 
-include_additional:
- - 
 links: true
 builtin_css: true
 builtin_js: true
+exclude_main: false
+exclude_modular: false
+order:
+  by: date
+  dir: desc
+include_additional:
+ - 
+exclude_additional:
+ - 

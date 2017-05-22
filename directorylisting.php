@@ -4,20 +4,23 @@ namespace Grav\Plugin;
 use Grav\Common\Grav;
 use Grav\Common\Plugin;
 use Grav\Common\Page\Page;
+use Grav\Common\Page\Media;
+use Grav\Common\Page\Collection;
 use RocketTheme\Toolbox\Event\Event;
 
 require('Utilities.php');
-use DirectoyListing\Utilities;
+use DirectoryListing\Utilities;
 
 /**
- * Builds hierarchical HTML list of files/folders
+ * Builds hierarchical HTML-list from page-structure
  *
- * Returns a hierarchy of files below the page through Twig,
+ * Creates a hierarchy of pages through Twig,
+ * including child-pages and media,
  * stylized as a collapsible tree-structure.
  *
  * Class DirectoryListingPlugin
  * @package Grav\Plugin
- * @return string Hierarchical HTML List
+ * @return string Hierarchical HTML-List
  * @license MIT License by Ole Vik
  */
 class DirectoryListingPlugin extends Plugin
@@ -34,12 +37,6 @@ class DirectoryListingPlugin extends Plugin
         ];
     }
 
-    public function onTwigExtensions()
-    {
-        require_once(__DIR__ . '/twig/DirectoryListingTwigExtension.php');
-        $this->grav['twig']->twig->addExtension(new DirectoryListingExtension());
-    }
-
     /**
      * Register events with Grav
      * @return void
@@ -49,41 +46,55 @@ class DirectoryListingPlugin extends Plugin
         if ($this->isAdmin()) {
             return;
         }
-
         $this->enable([
-            'onTwigPageVariables' => ['buildOutput', 0]
+            'onAssetsInitialized' => ['init', 0],
+            'onTwigPageVariables' => ['output', 0]
         ]);
     }
 
     /**
-     * Builds hierarchical HTML list of files/folders
-     * @return string Hierarchical HTML List
+     * Register Twig-extension with Grav
+     * @return void
      */
-    public function buildOutput(Event $event)
+    public function onTwigExtensions()
     {
-        $config = (array) $this->config->get('plugins');
-        $config = $config['directorylisting'];
-        $page = $event['page'];
-        $config = $this->mergeConfig($page);
-        $config['locator'] = $this->grav['locator'];
-        $config['pages_path'] = $config['locator']->findResource('page://', true);
-        $utility = new Utilities();
+        require_once(__DIR__ . '/twig/DirectoryListingTwigExtension.php');
+        $this->grav['twig']->twig->addExtension(new DirectoryListingExtension());
+    }
 
+    /**
+     * Initialize plugin assets
+     * @return void
+     */
+    public function init()
+    {
+        $config = (array) $this->config->get('plugins.directorylisting');
         if ($config['builtin_css']) {
             $this->grav['assets']->addCss('plugin://directorylisting/css/directorylisting.css');
+            $this->grav['assets']->addCss('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+            $this->grav['assets']->addCss('plugin://directorylisting/css/metisMenu.min.css');
+            $this->grav['assets']->addCss('plugin://directorylisting/css/mm-folder.css');
         }
         if ($config['builtin_js']) {
             $this->grav['assets']->addJs('jquery');
+            $this->grav['assets']->addJs('plugin://directorylisting/js/metisMenu.min.js');
             $this->grav['assets']->addJs('plugin://directorylisting/js/directorylisting.js');
         }
+    }
 
-        if ($config['include_additional']) {
-            $pages = $this->grav['pages']->instances();
-        } else {
-            $pages = false;
-        }
-        $structure = $utility->buildDirectoryList($config, $this->grav['page'], $pages);
+    /**
+     * Builds hierarchical HTML-list of pages and media
+     * @return string HTML-List
+     */
+    public function output()
+    {
+        $config = (array) $this->config->get('plugins.directorylisting');
+        $page = $this->grav['page'];
+        $route = $page->route();
+        $config = $this->mergeConfig($page);
+        $utility = new Utilities($config);
 
-        $this->grav['twig']->twig_vars['directorylisting'] = $structure;
+        $list = $utility->build($route);
+        $this->grav['twig']->twig_vars['directorylisting'] = '<div class="directorylist">' . $list . '</div>';
     }
 }

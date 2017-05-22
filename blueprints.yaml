@@ -1,13 +1,13 @@
 name: Directory Listing
-version: 2.0.0
-description: "Returns a hierarchy of files below the page through Twig."
+version: 2.0.0-rc.1
+description: "Builds hierarchical HTML-list from page-structure."
 icon: folder-open
 author:
   name: Ole Vik
   email: git@olevik.me
   url: http://olevik.me
 homepage: https://github.com/olevik/grav-plugin-directorylisting
-keywords: directory, folders, files, tree
+keywords: directory, folders, files, tree, pages
 bugs: https://github.com/olevik/grav-plugin-directorylisting/issues
 license: MIT
 
@@ -33,42 +33,6 @@ form:
       validate:
         min: 0
         max: 10
-    exclude_main:
-      type: toggle
-      label: Exclude page file
-      description: Excludes the file which the tree-structure is called from.
-      highlight: 1
-      default: 1
-      options:
-        1: PLUGIN_ADMIN.ENABLED
-        0: PLUGIN_ADMIN.DISABLED
-      validate:
-        type: bool
-    exclude_modular:
-      type: toggle
-      label: Exclude modular page files
-      highlight: 1
-      default: 1
-      options:
-        1: PLUGIN_ADMIN.ENABLED
-        0: PLUGIN_ADMIN.DISABLED
-      validate:
-        type: bool
-    exclude_additional:
-      type: selectize
-      label: Exclude additional
-      description: Additional files/folders to exclude from tree-structure.
-      classes: fancy
-      validate:
-        type: commalist
-    include_additional:
-      type: selectize
-      label: Include additional
-      help: Matches folder-name in /user/pages/, not page-title
-      description: Additional folders to include in the tree-structure.
-      classes: fancy
-      validate:
-        type: commalist
     links:
       type: toggle
       label: Link to files
@@ -100,3 +64,57 @@ form:
         0: PLUGIN_ADMIN.DISABLED
       validate:
         type: bool
+    exclude_main:
+      type: toggle
+      label: Exclude page file
+      description: Excludes the file which the tree-structure is called from.
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+    exclude_modular:
+      type: toggle
+      label: Exclude modular page files
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+    order.by:
+      type: select
+      size: medium
+      classes: fancy
+      label: Order Type
+      options:
+        default: Default - based on folder name
+        folder: Folder - based on prefix-less folder name
+        title: Title - based on title field in header
+        date: Date - based on date field in header
+    order.dir:
+      type: toggle
+      label: Order Direction
+      highlight: asc
+      default: desc
+      options:
+        asc: Ascending
+        desc: Descending
+    include_additional:
+      type: selectize
+      label: Include additional
+      help: Matches folder-name in /user/pages/, not page-title
+      description: Additional pages to include in the tree-structure.
+      classes: fancy
+      validate:
+        type: commalist
+    exclude_additional:
+      type: selectize
+      label: Exclude additional
+      description: Additional fpages to exclude from tree-structure.
+      classes: fancy
+      validate:
+        type: commalist

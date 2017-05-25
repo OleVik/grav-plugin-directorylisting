@@ -32,15 +32,19 @@ class Utilities
     {
         $config = $this->config;
         $tree = $this->buildTree($route);
-        if (count(array_filter($config['include_additional'], 'strlen')) > 0) {
+        if ($config['include_additional']) {
             foreach ($config['include_additional'] as $include) {
-                $include = $this->buildTree($include, '@page.self');
-                $tree = array_merge($tree, $include);
+                if (is_array($include)) {
+                    $include = $this->buildTree($include, '@page.self');
+                    $tree = array_merge($tree, $include);
+                }
             }
         }
-        if (count(array_filter($config['exclude_additional'], 'strlen')) > 0) {
+        if ($config['exclude_additional']) {
             foreach ($config['exclude_additional'] as $exclude) {
-                $this->arrayExcept($tree, array($exclude));
+                if (is_array($exclude)) {
+                    $this->arrayExcept($tree, array($exclude));
+                }
             }
         }
         if ($tree) {

@@ -1,5 +1,6 @@
 enabled: true
 level: 1
+showfiles: false
 links: true
 builtin_css: true
 builtin_js: true

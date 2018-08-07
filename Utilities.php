@@ -112,55 +112,63 @@ class Utilities
      */
     public function buildList($tree, $depth = 0)
     {
-        $config = $this->config;
-        $depth++;
-        if ($config['builtin_css'] && $config['builtin_js'] && $depth == 1) {
-            $list = '<ul class="metismenu metisFolder">';
-        } else {
-            $list = '<ul>';
-        }
-        foreach ($tree as $route => $page) {
-            $list .= '<li class="directory';
-            if ($page['depth'] <= $config['level']) {
-                $list .= ' active';
-            }
-            $list .= '">';
-            if ($config['builtin_css'] && $config['builtin_js']) {
-                $list .= '<a href="#" aria-expanded="true" class="has-arrow">' . $page['title'] . '</a>';
-            } else {
-                if ($config['links']) {
-                    $list .= '<a href="' . $page['route'] . '">' . $page['title'] . '</a>';
-                } else {
-                    $list .= $page['title'];
-                }
-            }
-            if (!$config['exclude_main']) {
-                if ($config['links']) {
-                    $list .= '<ul><li class="file page"><a href="' . $page['route'] . '">' . $page['name'] . '</a></li></ul>';
-                } else {
-                    $list .= '<ul><li class="file page">' . $page['name'] . '</li></ul>';
-                }
-            }
-            if (isset($page['children'])) {
-                $list .= $this->buildList($page['children'], $depth);
-            }
-            if (isset($page['media'])) {
-                $list .= '<ul>';
-                foreach ($page['media'] as $filename => $type) {
-                    if ($config['links']) {
-                        $list .= '<li class="file ' . $type . '"><a href="' . $page['route'] . '/' . $filename . '">' . $filename . '</a></li>';
-                    } else {
-                        $list .= '<li class="file ' . $type . '">' . $filename . '</li>';
-                    }
-                }
-                $list .= '</ul>';
-            }
-            $list .= '</li>';
-        }
-        $list .= '</ul>';
-        return $list;
-    }
+	    $config = $this->config;
+	    $depth++;
+	    if ($config['builtin_css'] && $config['builtin_js'] && $depth == 1) {
+		    $list = '<ul class="metismenu metisFolder">';
+	    } else {
+		    $list = '<ul>';
+	    }
+	    foreach ($tree as $route => $page) {
+		    $list .= '<li class="directory';
+		    if ($page['depth'] <= $config['level']) {
+			    $list .= ' active';
+		    }
+		    $list .= '">';
+		    if ($config['builtin_css'] && $config['builtin_js']) {
+			    $list .= '<a href="#" aria-expanded="true" class="has-arrow">' . $page['title'] . '</a>';
+		    } else {
+			    if($config['showfiles']){
+				    if ($config['links']) {
+					    $list .= '<a href="' . $page['route'] . '">' . $page['title'] . '</a>';
+				    } else {
+					    $list .= $page['title'];
+				    }
+			    }
+		    }
+		    if (!$config['exclude_main']) {
+			    if($config['showfiles']){
+				    if ($config['links']) {
+					    $list .= '<ul><li class="file page"><a href="' . $page['route'] . '">' . $page['name'] . '</a></li></ul>';
+				    } else {
+					    $list .= '<ul><li class="file page">' . $page['name'] . '</li></ul>';
+				    }
 
+			    }
+		    }
+		    if (isset($page['children'])) {
+			    $list .= $this->buildList($page['children'], $depth);
+		    }
+		    if (isset($page['media'])) {
+			    if($config['showfiles']){
+				    $list .= '<ul>';
+				    foreach ($page['media'] as $filename => $type) {
+					    if ($config['links']) {
+						    $list .= '<li class="file ' . $type . '"><a href="' . $page['route'] . '/' . $filename . '">' . $filename . '</a></li>';
+					    } else {
+						    $list .= '<li class="file ' . $type . '">' . $filename . '</li>';
+					    }
+				    }
+				    $list .= '</ul>';
+
+			    } 
+			    $list .= '</li>';
+		    }
+	    }
+	    $list .= '</ul>';
+	    return $list;
+
+    }
     /**
      * Removes keys from an array
      * @param array $array Array to remove keys from

@@ -33,6 +33,17 @@ form:
       validate:
         min: 0
         max: 10
+    showfiles:
+      type: toggle
+      label: Show media files
+      description: Show media/files in the tree
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
     links:
       type: toggle
       label: Link to files

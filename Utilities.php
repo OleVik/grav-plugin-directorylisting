@@ -146,6 +146,7 @@ class Utilities
 			    $list .= $this->buildList($page['children'], $depth);
 		    }
 		    if (isset($page['media'])) {
+			    if($config['showfiles']){
 				    $list .= '<ul>';
 				    foreach ($page['media'] as $filename => $type) {
 					    if ($config['links']) {
@@ -158,6 +159,7 @@ class Utilities
 
 			    } 
 			    $list .= '</li>';
+		    }
 	    }
 	    $list .= '</ul>';
 	    return $list;

@@ -1,3 +1,9 @@
+# v2.1.0
+## 10-08-2018
+
+1. [](#new)
+    * Added showfiles-option to disable media showing up in the tree, #10.
+
 # v2.0.0-rc.1
 ## 16-05-2017
 

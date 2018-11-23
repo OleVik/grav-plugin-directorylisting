@@ -73,29 +73,31 @@ class Utilities
         $pages = $page->evaluate([$mode => $route]);
         $pages = $pages->published()->order($config['order']['by'], $config['order']['dir']);
         $paths = array();
-        foreach ($pages as $page) {
-            if ($config['exclude_modular'] && isset($page->header()->content['items'])) {
-                if ($page->header()->content['items'] == '@self.modular') {
-                    continue;
-                }
-            }
-            $route = $page->rawRoute();
-            $path = $page->path();
-            $title = $page->title();
-            $paths[$route]['depth'] = $depth;
-            $paths[$route]['title'] = $title;
-            $paths[$route]['route'] = $route;
-            $paths[$route]['name'] = $page->name();
-            if (!empty($paths[$route])) {
-                $children = $this->buildTree($route, $mode, $depth);
-                if (!empty($children)) {
-                    $paths[$route]['children'] = $children;
-                }
-            }
-            $media = new Media($path);
-            foreach ($media->all() as $filename => $file) {
-                $paths[$route]['media'][$filename] = $file->items()['type'];
-            }
+        if ($depth <= $config['max_depth']) {
+          foreach ($pages as $page) {
+              if ($config['exclude_modular'] && isset($page->header()->content['items'])) {
+                  if ($page->header()->content['items'] == '@self.modular') {
+                      continue;
+                  }
+              }
+              $route = $page->rawRoute();
+              $path = $page->path();
+              $title = $page->title();
+              $paths[$route]['depth'] = $depth;
+              $paths[$route]['title'] = $title;
+              $paths[$route]['route'] = $route;
+              $paths[$route]['name'] = $page->name();
+              if (!empty($paths[$route])) {
+                  $children = $this->buildTree($route, $mode, $depth);
+                  if (!empty($children)) {
+                      $paths[$route]['children'] = $children;
+                  }
+              }
+              $media = new Media($path);
+              foreach ($media->all() as $filename => $file) {
+                  $paths[$route]['media'][$filename] = $file->items()['type'];
+              }
+          }
         }
         if (!empty($paths)) {
             return $paths;
@@ -157,7 +159,7 @@ class Utilities
 				    }
 				    $list .= '</ul>';
 
-			    } 
+			    }
 			    $list .= '</li>';
 		    }
 	    }

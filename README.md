@@ -21,6 +21,7 @@ The plugin is enabled by default, and can be disabled by copying `user/plugins/d
 |----------------|---------|-------------------|--------------------------------------------------------------------------|
 | `enabled` | `true` | `true` or `false` | Enables or disables plugin entirely. |
 | `level` | 1 | (int) 0-10 | Initial level of folders to expand on load. |
+| `max_depth`  | 3 | (int) 1-10 | Deepest depth to which to generate the tree. |
 | `links` | `true` | `true` or `false` | Enables or disables links on file names. |
 | `builtin_css` | `true` | `true` or `false` | Enables or disables the plugin's built-in CSS. |
 | `builtin_js` | `true` | `true` or `false` | Enables or disables the plugin's built-in JavaScript. |
@@ -71,8 +72,8 @@ You can also call the plugin from the `directorylisting` Twig-function, for exam
 
 ```
 {% set settings = {
-    'exclude_main': false, 
-    'exclude_modular': true, 
+    'exclude_main': false,
+    'exclude_modular': true,
     'include_additional': [
         '/blog'
     ]

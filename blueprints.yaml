@@ -33,6 +33,15 @@ form:
       validate:
         min: 0
         max: 10
+    max_depth:
+      type: range
+      label: Maximum Level
+      description: Deepest depth to which to generate the tree.
+      id: directorylisting_max_depth
+      default: 3
+      validate:
+        min: 1
+        max: 10
     showfiles:
       type: toggle
       label: Show media files

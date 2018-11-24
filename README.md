@@ -20,8 +20,8 @@ The plugin is enabled by default, and can be disabled by copying `user/plugins/d
 | Variable | Default | Options | Note |
 |----------------|---------|-------------------|--------------------------------------------------------------------------|
 | `enabled` | `true` | `true` or `false` | Enables or disables plugin entirely. |
-| `level` | 1 | (int) 0-10 | Initial level of folders to expand on load. |
-| `max_depth`  | 3 | (int) 1-10 | Deepest depth to which to generate the tree. |
+| `level` | 1 | (int) 0-n | Initial level of folders to expand on load. |
+| `max_depth`  | 3 | (int) 1-n | Depth at which to stop generating the tree. |
 | `links` | `true` | `true` or `false` | Enables or disables links on file names. |
 | `builtin_css` | `true` | `true` or `false` | Enables or disables the plugin's built-in CSS. |
 | `builtin_js` | `true` | `true` or `false` | Enables or disables the plugin's built-in JavaScript. |

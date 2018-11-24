@@ -1,6 +1,6 @@
 enabled: true
 level: 1
-max-depth: 3
+max_depth: 3
 showfiles: true
 links: true
 builtin_css: true

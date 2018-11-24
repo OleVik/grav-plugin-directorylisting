@@ -25,23 +25,23 @@ form:
       validate:
         type: bool
     level:
-      type: range
+      type: text
       label: Level
       description: Initial level of folders to expand on load.
       id: directorylisting_level
       default: 1
       validate:
+        type: int
         min: 0
-        max: 10
     max_depth:
       type: range
       label: Maximum Level
-      description: Deepest depth to which to generate the tree.
+      description: Depth at which to stop generating the tree.
       id: directorylisting_max_depth
       default: 3
       validate:
+        type: int
         min: 1
-        max: 10
     showfiles:
       type: toggle
       label: Show media files

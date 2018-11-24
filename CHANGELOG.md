@@ -1,3 +1,18 @@
+# v2.2.0
+## 24-11-2018
+
+1. [](#new)
+    * Added `max_depth`-setting (thanks @MadEmperorYuri, #11)
+2. [](#improved)
+    * Twig-variable robustness
+    * Code quality
+
+# v2.1.0
+## 10-08-2018
+
+1. [](#new)
+    * Added showfiles-option to disable media showing up in the tree, #10.
+
 # v2.0.0-rc.1
 ## 16-05-2017
 

@@ -32,15 +32,19 @@ class Utilities
     {
         $config = $this->config;
         $tree = $this->buildTree($route);
-        if (count(array_filter($config['include_additional'], 'strlen')) > 0) {
+        if ($config['include_additional']) {
             foreach ($config['include_additional'] as $include) {
-                $include = $this->buildTree($include, '@page.self');
-                $tree = array_merge($tree, $include);
+                if (is_array($include)) {
+                    $include = $this->buildTree($include, '@page.self');
+                    $tree = array_merge($tree, $include);
+                }
             }
         }
-        if (count(array_filter($config['exclude_additional'], 'strlen')) > 0) {
+        if ($config['exclude_additional']) {
             foreach ($config['exclude_additional'] as $exclude) {
-                $this->arrayExcept($tree, array($exclude));
+                if (is_array($exclude)) {
+                    $this->arrayExcept($tree, array($exclude));
+                }
             }
         }
         if ($tree) {
@@ -66,31 +70,38 @@ class Utilities
         if ($depth > 1) {
             $mode = '@page.children';
         }
+        if ($config['max_depth'] == 0) {
+            $max_depth = 100;
+        } else {
+            $max_depth = (int) $config['max_depth'];
+        }
         $pages = $page->evaluate([$mode => $route]);
         $pages = $pages->published()->order($config['order']['by'], $config['order']['dir']);
         $paths = array();
-        foreach ($pages as $page) {
-            if ($config['exclude_modular'] && isset($page->header()->content['items'])) {
-                if ($page->header()->content['items'] == '@self.modular') {
-                    continue;
+        if ($depth <= $max_depth) {
+            foreach ($pages as $page) {
+                if ($config['exclude_modular'] && isset($page->header()->content['items'])) {
+                    if ($page->header()->content['items'] == '@self.modular') {
+                        continue;
+                    }
                 }
-            }
-            $route = $page->rawRoute();
-            $path = $page->path();
-            $title = $page->title();
-            $paths[$route]['depth'] = $depth;
-            $paths[$route]['title'] = $title;
-            $paths[$route]['route'] = $route;
-            $paths[$route]['name'] = $page->name();
-            if (!empty($paths[$route])) {
-                $children = $this->buildTree($route, $mode, $depth);
-                if (!empty($children)) {
-                    $paths[$route]['children'] = $children;
+                $route = $page->rawRoute();
+                $path = $page->path();
+                $title = $page->title();
+                $paths[$route]['depth'] = $depth;
+                $paths[$route]['title'] = $title;
+                $paths[$route]['route'] = $route;
+                $paths[$route]['name'] = $page->name();
+                if (!empty($paths[$route])) {
+                    $children = $this->buildTree($route, $mode, $depth);
+                    if (!empty($children)) {
+                        $paths[$route]['children'] = $children;
+                    }
                 }
-            }
-            $media = new Media($path);
-            foreach ($media->all() as $filename => $file) {
-                $paths[$route]['media'][$filename] = $file->items()['type'];
+                $media = new Media($path);
+                foreach ($media->all() as $filename => $file) {
+                    $paths[$route]['media'][$filename] = $file->items()['type'];
+                }
             }
         }
         if (!empty($paths)) {
@@ -117,7 +128,7 @@ class Utilities
         }
         foreach ($tree as $route => $page) {
             $list .= '<li class="directory';
-            if ($page['depth'] <= $config['level']) {
+            if ($page['depth'] <= (int) $config['level']) {
                 $list .= ' active';
             }
             $list .= '">';
@@ -132,26 +143,34 @@ class Utilities
             }
             if (!$config['exclude_main']) {
                 if ($config['links']) {
-                    $list .= '<ul><li class="file page"><a href="' . $page['route'] . '">' . $page['name'] . '</a></li></ul>';
+                    $list .= '<ul><li class="file page"><a href="' . $page['route'] . '">';
+                    $list .= $page['name'];
+                    $list .= '</a></li></ul>';
                 } else {
-                    $list .= '<ul><li class="file page">' . $page['name'] . '</li></ul>';
+                    $list .= '<ul><li class="file page">';
+                    $list .= $page['name'];
+                    $list .= '</li></ul>';
                 }
             }
             if (isset($page['children'])) {
                 $list .= $this->buildList($page['children'], $depth);
             }
             if (isset($page['media'])) {
-                $list .= '<ul>';
-                foreach ($page['media'] as $filename => $type) {
-                    if ($config['links']) {
-                        $list .= '<li class="file ' . $type . '"><a href="' . $page['route'] . '/' . $filename . '">' . $filename . '</a></li>';
-                    } else {
-                        $list .= '<li class="file ' . $type . '">' . $filename . '</li>';
+                if ($config['showfiles']) {
+                    $list .= '<ul>';
+                    foreach ($page['media'] as $filename => $type) {
+                        if ($config['links']) {
+                            $list .= '<li class="file ' . $type . '">';
+                            $list .= '<a href="' . $page['route'] . '/' . $filename . '">' . $filename . '</a>';
+                            $list .= '</li>';
+                        } else {
+                            $list .= '<li class="file ' . $type . '">' . $filename . '</li>';
+                        }
                     }
+                    $list .= '</ul>';
                 }
-                $list .= '</ul>';
+                $list .= '</li>';
             }
-            $list .= '</li>';
         }
         $list .= '</ul>';
         return $list;

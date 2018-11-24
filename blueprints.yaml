@@ -1,5 +1,5 @@
 name: Directory Listing
-version: 2.0.0-rc.1
+version: 2.2.0
 description: "Builds hierarchical HTML-list from page-structure."
 icon: folder-open
 author:
@@ -31,8 +31,28 @@ form:
       id: directorylisting_level
       default: 1
       validate:
+        type: int
         min: 0
-        max: 10
+    max_depth:
+      type: range
+      label: Maximum Level
+      description: Depth at which to stop generating the tree.
+      id: directorylisting_max_depth
+      default: 3
+      validate:
+        type: int
+        min: 0
+    showfiles:
+      type: toggle
+      label: Show media files
+      description: Show media/files in the tree
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
     links:
       type: toggle
       label: Link to files

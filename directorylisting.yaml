@@ -1,5 +1,7 @@
 enabled: true
 level: 1
+max_depth: 3
+showfiles: true
 links: true
 builtin_css: true
 builtin_js: true
@@ -9,6 +11,6 @@ order:
   by: date
   dir: desc
 include_additional:
- - 
+ -
 exclude_additional:
- - 
+ -

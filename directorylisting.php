@@ -8,7 +8,6 @@ use Grav\Common\Page\Media;
 use Grav\Common\Page\Collection;
 use RocketTheme\Toolbox\Event\Event;
 
-require('Utilities.php');
 use DirectoryListing\Utilities;
 
 /**
@@ -48,7 +47,8 @@ class DirectoryListingPlugin extends Plugin
         }
         $this->enable([
             'onAssetsInitialized' => ['init', 0],
-            'onTwigPageVariables' => ['output', 0]
+            'onTwigPageVariables' => ['output', 0],
+            'onTwigSiteVariables' => ['output', 0]
         ]);
     }
 
@@ -71,7 +71,9 @@ class DirectoryListingPlugin extends Plugin
         $config = (array) $this->config->get('plugins.directorylisting');
         if ($config['builtin_css']) {
             $this->grav['assets']->addCss('plugin://directorylisting/css/directorylisting.css');
-            $this->grav['assets']->addCss('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+            $this->grav['assets']->addCss(
+                'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
+            );
             $this->grav['assets']->addCss('plugin://directorylisting/css/metisMenu.min.css');
             $this->grav['assets']->addCss('plugin://directorylisting/css/mm-folder.css');
         }
@@ -88,13 +90,16 @@ class DirectoryListingPlugin extends Plugin
      */
     public function output()
     {
-        $config = (array) $this->config->get('plugins.directorylisting');
-        $page = $this->grav['page'];
-        $route = $page->route();
-        $config = $this->mergeConfig($page);
-        $utility = new Utilities($config);
-
-        $list = $utility->build($route);
-        $this->grav['twig']->twig_vars['directorylisting'] = '<div class="directorylist">' . $list . '</div>';
+        $twig_vars = $this->grav['twig']->twig_vars;
+        if (!isset($twig_vars['directorylisting']) || !empty($twig_vars['directorylisting'])) {
+            require('Utilities.php');
+            $config = (array) $this->config->get('plugins.directorylisting');
+            $page = $this->grav['page'];
+            $route = $page->route();
+            $config = $this->mergeConfig($page);
+            $utility = new Utilities($config);
+            $list = $utility->build($route);
+            $this->grav['twig']->twig_vars['directorylisting'] = '<div class="directorylist">' . $list . '</div>';
+        }
     }
 }

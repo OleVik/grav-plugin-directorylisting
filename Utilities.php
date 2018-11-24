@@ -175,7 +175,6 @@ class Utilities
         $list .= '</ul>';
         return $list;
     }
-
     /**
      * Removes keys from an array
      * @param array $array Array to remove keys from

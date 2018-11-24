@@ -25,7 +25,7 @@ form:
       validate:
         type: bool
     level:
-      type: range
+      type: text
       label: Level
       description: Initial level of folders to expand on load.
       id: directorylisting_level

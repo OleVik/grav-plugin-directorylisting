@@ -8,6 +8,7 @@ use Grav\Common\Page\Media;
 use Grav\Common\Page\Collection;
 use RocketTheme\Toolbox\Event\Event;
 
+require_once __DIR__ . '/Utilities.php';
 use DirectoryListing\Utilities;
 
 /**
@@ -58,7 +59,7 @@ class DirectoryListingPlugin extends Plugin
      */
     public function onTwigExtensions()
     {
-        require_once(__DIR__ . '/twig/DirectoryListingTwigExtension.php');
+        require_once __DIR__ . '/twig/DirectoryListingTwigExtension.php';
         $this->grav['twig']->twig->addExtension(new DirectoryListingExtension());
     }
 
@@ -92,7 +93,6 @@ class DirectoryListingPlugin extends Plugin
     {
         $twig_vars = $this->grav['twig']->twig_vars;
         if (!isset($twig_vars['directorylisting']) || !empty($twig_vars['directorylisting'])) {
-            require('Utilities.php');
             $config = (array) $this->config->get('plugins.directorylisting');
             $page = $this->grav['page'];
             $route = $page->route();

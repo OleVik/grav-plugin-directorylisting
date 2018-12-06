@@ -86,11 +86,13 @@ class Utilities
                     }
                 }
                 $route = $page->rawRoute();
+                $url = $page->url();
                 $path = $page->path();
                 $title = $page->title();
                 $paths[$route]['depth'] = $depth;
                 $paths[$route]['title'] = $title;
                 $paths[$route]['route'] = $route;
+                $paths[$route]['url'] = $url;
                 $paths[$route]['name'] = $page->name();
                 if (!empty($paths[$route])) {
                     $children = $this->buildTree($route, $mode, $depth);
@@ -136,14 +138,14 @@ class Utilities
                 $list .= '<a href="#" aria-expanded="true" class="has-arrow">' . $page['title'] . '</a>';
             } else {
                 if ($config['links']) {
-                    $list .= '<a href="' . $page['route'] . '">' . $page['title'] . '</a>';
+                    $list .= '<a href="' . $page['url'] . '">' . $page['title'] . '</a>';
                 } else {
                     $list .= $page['title'];
                 }
             }
             if (!$config['exclude_main']) {
                 if ($config['links']) {
-                    $list .= '<ul><li class="file page"><a href="' . $page['route'] . '">';
+                    $list .= '<ul><li class="file page"><a href="' . $page['url'] . '">';
                     $list .= $page['name'];
                     $list .= '</a></li></ul>';
                 } else {
@@ -161,7 +163,7 @@ class Utilities
                     foreach ($page['media'] as $filename => $type) {
                         if ($config['links']) {
                             $list .= '<li class="file ' . $type . '">';
-                            $list .= '<a href="' . $page['route'] . '/' . $filename . '">' . $filename . '</a>';
+                            $list .= '<a href="' . $page['url'] . '/' . $filename . '">' . $filename . '</a>';
                             $list .= '</li>';
                         } else {
                             $list .= '<li class="file ' . $type . '">' . $filename . '</li>';

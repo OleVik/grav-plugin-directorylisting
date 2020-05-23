@@ -1,5 +1,6 @@
 name: Directory Listing
-version: 2.3.0
+version: 2.4.0-beta.1
+testing: true
 description: "Builds hierarchical HTML-list from page-structure."
 icon: folder-open
 author:

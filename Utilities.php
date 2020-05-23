@@ -86,13 +86,10 @@ class Utilities
                     }
                 }
                 $route = $page->rawRoute();
-                $url = $page->url();
-                $path = $page->path();
-                $title = $page->title();
                 $paths[$route]['depth'] = $depth;
-                $paths[$route]['title'] = $title;
+                $paths[$route]['title'] = $page->title();
                 $paths[$route]['route'] = $route;
-                $paths[$route]['url'] = $url;
+                $paths[$route]['url'] = $page->url();
                 $paths[$route]['name'] = $page->name();
                 if (!empty($paths[$route])) {
                     $children = $this->buildTree($route, $mode, $depth);
@@ -100,9 +97,9 @@ class Utilities
                         $paths[$route]['children'] = $children;
                     }
                 }
-                $media = new Media($path);
+                $media = new Media($page->path());
                 foreach ($media->all() as $filename => $file) {
-                    $paths[$route]['media'][$filename] = $file->items()['type'];
+                    $paths[$route]['media'][$filename] = $file;
                 }
             }
         }
@@ -160,13 +157,13 @@ class Utilities
             if (isset($page['media'])) {
                 if ($config['showfiles']) {
                     $list .= '<ul>';
-                    foreach ($page['media'] as $filename => $type) {
+                    foreach ($page['media'] as $filename => $file) {
                         if ($config['links']) {
-                            $list .= '<li class="file ' . $type . '">';
-                            $list .= '<a href="' . $page['url'] . '/' . $filename . '">' . $filename . '</a>';
+                            $list .= '<li class="file ' . $file->items()['type'] . '">';
+                            $list .= '<a href="' . $file->url() . '">' . $filename . '</a>';
                             $list .= '</li>';
                         } else {
-                            $list .= '<li class="file ' . $type . '">' . $filename . '</li>';
+                            $list .= '<li class="file ' . $file->items()['type'] . '">' . $filename . '</li>';
                         }
                     }
                     $list .= '</ul>';
@@ -177,6 +174,7 @@ class Utilities
         $list .= '</ul>';
         return $list;
     }
+
     /**
      * Removes keys from an array
      * @param array $array Array to remove keys from

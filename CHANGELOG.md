@@ -1,3 +1,9 @@
+# v3.0.0
+## 02-01-2023
+
+1. [](#new)
+    * Remove reference to FontAwesome
+
 # v2.4.0
 ## 16-07-2020
 

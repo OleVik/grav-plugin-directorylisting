@@ -72,9 +72,6 @@ class DirectoryListingPlugin extends Plugin
         $config = (array) $this->config->get('plugins.directorylisting');
         if ($config['builtin_css']) {
             $this->grav['assets']->addCss('plugin://directorylisting/css/directorylisting.css');
-            $this->grav['assets']->addCss(
-                'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
-            );
             $this->grav['assets']->addCss('plugin://directorylisting/css/metisMenu.min.css');
             $this->grav['assets']->addCss('plugin://directorylisting/css/mm-folder.css');
         }

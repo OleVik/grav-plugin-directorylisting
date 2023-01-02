@@ -29,9 +29,6 @@
   top: 13px;
   left: -33px;
 }
-li.active > a > span.fa-folder-o:before {
-  content: "\f115" !important;
-}
 .metismenu .has-arrow:after {
 	content: none;
 }

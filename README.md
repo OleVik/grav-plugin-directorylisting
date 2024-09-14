@@ -43,7 +43,7 @@ Additional pages can be **excluded** by passing a list to `exclude_additional`, 
 Simply include the following in your Twig-templates:
 
 ```
-{{ directorylisting }}
+{{ directorylisting | raw }}
 ```
 
 #### Advanced usage
@@ -78,7 +78,7 @@ You can also call the plugin from the `directorylisting` Twig-function, for exam
         '/blog'
     ]
 } %}
-{{ directorylisting(settings) }}
+{{ directorylisting(settings) | raw }}
 ```
 
 The multi-dimensional array of values passed to the function mirrors the plugin's settings exactly, and is merged with the plugin's general settings.

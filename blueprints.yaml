@@ -1,5 +1,5 @@
 name: Directory Listing
-version: 3.0.0
+version: 3.0.1
 description: "Builds hierarchical HTML-list from page-structure."
 icon: folder-open
 author:
